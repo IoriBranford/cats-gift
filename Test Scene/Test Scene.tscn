@@ -10,12 +10,6 @@
 
 [node name="Test Scene" type="Spatial"]
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.909607, 0.200365, -0.363964, 0, 0.876028, 0.48226, 0.415471, -0.438667, 0.796841, 0, 5.29372, 0 )
-shadow_enabled = true
-directional_shadow_blend_splits = true
-directional_shadow_max_distance = 200.0
-
 [node name="Level" type="Spatial" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 
