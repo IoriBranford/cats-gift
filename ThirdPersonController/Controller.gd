@@ -12,7 +12,6 @@ export(float) var ZoomSpeed = 2
 
 var Player
 var InnerGimbal
-var Direction = Vector3()
 var Rotation = Vector2()
 var gravity = -10
 var Movement = Vector3()
@@ -30,7 +29,7 @@ func _ready():
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion :
-		Rotation = event.relative
+		Rotation += event.relative
 	
 	if event is InputEventMouseButton:
 		match event.button_index:
@@ -52,7 +51,7 @@ func _physics_process(delta):
 	Rotation = Vector2()
 	
 	#Movement
-	Direction = Vector3.ZERO
+	var Direction = Vector3.ZERO
 	if Input.is_action_pressed("ui_up"):
 		Direction.z -= 1
 	if Input.is_action_pressed("ui_down"):
