@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Test Scene/grey_material.tres" type="Material" id=1]
 [ext_resource path="res://Test Scene/Static cube.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ThirdPersonController/test_player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Cat.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -40,10 +41,18 @@ transform = Transform( -0.074227, 0, -0.499983, 0, 2.5, 0, 8.99969, 0, -0.004123
 transform = Transform( -0.840681, 0, -0.541531, 0, 2, 0, 0.541531, 0, -0.840681, 1.60711, 2, -4.52622 )
 
 [node name="Static cube6" parent="Level" instance=ExtResource( 2 )]
-transform = Transform( 0.282327, 0, 0.479659, 0, 1, 0, -0.959318, 0, 0.141163, 5.68626, 1, 6.92052 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.5, -0.0159669, 0.847976, 0.169314 )
+
+[node name="Static cube8" parent="Level" instance=ExtResource( 2 )]
+transform = Transform( 0.0542912, 0, 0.00998525, 0, 1, 0, -0.998525, 0, 0.000542912, -0.0159669, 0.847976, -1.37133 )
 
 [node name="Static cube7" parent="Level" instance=ExtResource( 2 )]
 transform = Transform( -0.596717, 0, 0.401226, 0, 1, 0, -0.802451, 0, -0.298359, -7.13092, 1, 5.02082 )
 
+[node name="Cat" parent="Level" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6376, 0, -1.64799 )
+
 [node name="Player" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.58265, 0 )
+
+[connection signal="body_entered" from="Level/Cat" to="Player" method="_on_Cat_body_entered"]

@@ -10,3 +10,7 @@ func _on_Controller_footstep():
 	$FootstepPlayer.stop()
 	$FootstepPlayer.stream = footstepSounds[randi() % footstepSounds.size()]
 	$FootstepPlayer.play()
+
+func _on_Cat_body_entered(body):
+	if self == body:
+		$BellsPlayer.play()
