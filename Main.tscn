@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Cat.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=3]
 [ext_resource path="res://Test Scene/Static cube.tscn" type="PackedScene" id=4]
 [ext_resource path="res://OneShotTrigger.tscn" type="PackedScene" id=5]
+[ext_resource path="res://default_env.tres" type="Environment" id=6]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 256, 256 )
@@ -78,6 +79,10 @@ transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 88 )
 [node name="TriggerCatPath2" parent="." instance=ExtResource( 5 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, -8, 4, 48 )
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 6 )
+
+[connection signal="body_entered" from="Cat" to="Player" method="_on_Cat_body_entered"]
 [connection signal="body_entered" from="Cat" to="Cat" method="_on_Cat_body_entered"]
 [connection signal="body_entered" from="TriggerCatAppear" to="Cat" method="_on_TriggerCatAppear_body_entered"]
 [connection signal="body_entered" from="TriggerCatPath1" to="Cat" method="_on_TriggerCatPath_body_entered" binds= [ 1 ]]
