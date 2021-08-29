@@ -15,8 +15,8 @@ var InnerGimbal
 var Rotation = Vector2()
 var gravity = -10
 var Movement = Vector3()
-var ZoomFactor = 1
-var ActualZoom = 1
+var ZoomFactor = MaxZoom
+var ActualZoom = MaxZoom
 var Speed = Vector3()
 var CurrentVerticalSpeed = Vector3()
 var JumpAcceleration = 3
@@ -31,8 +31,8 @@ func _ready():
 	InnerGimbal =  $InnerGimbal
 
 func _unhandled_input(event):
-	if event is InputEventMouseMotion :
-		Rotation += event.relative
+#	if event is InputEventMouseMotion :
+#		Rotation += event.relative
 	
 	if event is InputEventMouseButton:
 		match event.button_index:
@@ -47,13 +47,6 @@ func _unhandled_input(event):
 				get_tree().quit()
 
 func _physics_process(delta):
-	#Rotation
-	Player.rotate_y(deg2rad(-Rotation.x)*delta*MouseSensitivity)
-	InnerGimbal.rotate_x(deg2rad(-Rotation.y)*delta*MouseSensitivity)
-	InnerGimbal.rotation_degrees.x = clamp(InnerGimbal.rotation_degrees.x, -RotationLimit, RotationLimit)
-	Rotation = Vector2()
-	
-	#Movement
 	var Direction = Vector3.ZERO
 	if Input.is_action_pressed("ui_up"):
 		Direction.z -= 1
@@ -67,6 +60,15 @@ func _physics_process(delta):
 		if not IsAirborne:
 			CurrentVerticalSpeed = Vector3(0,MaxJump,0)
 			IsAirborne = true
+
+	#Rotation
+#	Player.rotate_y(deg2rad(-Rotation.x)*delta*MouseSensitivity)
+	Player.rotate_y(deg2rad(-Direction.x)*delta*MouseSensitivity)
+	InnerGimbal.rotate_x(deg2rad(-Rotation.y)*delta*MouseSensitivity)
+	InnerGimbal.rotation_degrees.x = clamp(InnerGimbal.rotation_degrees.x, -RotationLimit, RotationLimit)
+	Rotation = Vector2()
+	
+	#Movement
 	var MaxSpeed = MovementSpeed *Direction.normalized()
 	Speed = Speed.linear_interpolate(MaxSpeed, delta * Acceleration)
 	Movement = Player.transform.basis * (Speed)
