@@ -79,10 +79,10 @@ func _physics_process(delta):
 		var speed = Speed.length()
 		if speed >= 1:
 			footstepTimer += delta
-			var footstepInterval = clamp(1 - MovementSpeed/speed, 0.25, 0.75)
+			var footstepInterval = clamp(1 - speed/MovementSpeed, 0.25, 0.75)
 			if footstepTimer >= footstepInterval:
 				emit_signal("footstep")
-				footstepTimer -= footstepInterval
+				footstepTimer = 0
 		else:
 			footstepTimer = 0
 
