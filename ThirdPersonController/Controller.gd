@@ -21,6 +21,9 @@ var Speed = Vector3()
 var CurrentVerticalSpeed = Vector3()
 var JumpAcceleration = 3
 var IsAirborne = false
+var footstepTimer = 0
+
+signal footstep
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -69,11 +72,20 @@ func _physics_process(delta):
 	Movement = Player.transform.basis * (Speed)
 	CurrentVerticalSpeed.y += gravity * delta * JumpAcceleration
 	Movement += CurrentVerticalSpeed
-	Player.move_and_slide(Movement,Vector3(0,1,0))
+	Player.move_and_slide(Movement,Vector3.UP)
 	if Player.is_on_floor() :
 		CurrentVerticalSpeed.y = 0
 		IsAirborne = false
-	
+		var speed = Speed.length()
+		if speed >= 1:
+			footstepTimer += delta
+			var footstepInterval = clamp(1 - MovementSpeed/speed, 0.25, 0.75)
+			if footstepTimer >= footstepInterval:
+				emit_signal("footstep")
+				footstepTimer -= footstepInterval
+		else:
+			footstepTimer = 0
+
 	#Zoom
 	ActualZoom = lerp(ActualZoom, ZoomFactor, delta * ZoomSpeed)
 	InnerGimbal.set_scale(Vector3(ActualZoom,ActualZoom,ActualZoom))
