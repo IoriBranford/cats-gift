@@ -31,8 +31,8 @@ func _ready():
 	InnerGimbal =  $InnerGimbal
 
 func _unhandled_input(event):
-#	if event is InputEventMouseMotion :
-#		Rotation += event.relative
+	if event is InputEventMouseMotion :
+		Rotation += event.relative
 	
 	if event is InputEventMouseButton:
 		match event.button_index:
@@ -62,8 +62,8 @@ func _physics_process(delta):
 			IsAirborne = true
 
 	#Rotation
-#	Player.rotate_y(deg2rad(-Rotation.x)*delta*MouseSensitivity)
-	Player.rotate_y(deg2rad(-Direction.x)*delta*MouseSensitivity)
+	Player.rotate_y(deg2rad(-Rotation.x)*delta*MouseSensitivity)
+#	Player.rotate_y(deg2rad(-Direction.x)*delta*MouseSensitivity)
 	InnerGimbal.rotate_x(deg2rad(-Rotation.y)*delta*MouseSensitivity)
 	InnerGimbal.rotation_degrees.x = clamp(InnerGimbal.rotation_degrees.x, -RotationLimit, RotationLimit)
 	Rotation = Vector2()
