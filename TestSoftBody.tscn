@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+
+[sub_resource type="ProceduralSky" id=1]
+
+[sub_resource type="Environment" id=7]
+background_mode = 2
+background_sky = SubResource( 1 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 2, 1, 2 )
+
+[sub_resource type="CubeMesh" id=6]
+size = Vector3( 4, 2, 4 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 7 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.707107, -0.183013, 0.683013, 0, 0.965926, 0.258819, -0.707107, -0.183013, 0.683013, 4, 3, 4 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+collision_layer = 1024
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 5 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="SoftTail" parent="Player" index="6"]
+visible = true
+attachments/0/offset = Vector3( 3.1005e-06, -0.0332204, -0.0181085 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 6 )
+material/0 = null
+
+[editable path="Player"]
+[editable path="Player/A008"]
