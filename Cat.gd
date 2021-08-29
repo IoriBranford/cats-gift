@@ -1,6 +1,6 @@
 extends Area
 
-export var speed = 10.0
+export var speed = 20.0
 
 var paths
 
@@ -28,6 +28,9 @@ func _on_TriggerCatAppear_body_entered(_body):
 	visible = true
 
 func _on_TriggerCatPath_body_entered(_body, path_number):
+	use_pathfollow(path_number)
+
+func use_pathfollow(path_number):
 	var pathFollow = paths.find_node("PathFollow%d" % path_number)
 	get_parent().remove_child(self)
 	pathFollow.add_child(self)
