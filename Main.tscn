@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Cat.tscn" type="PackedScene" id=2]
@@ -8,27 +8,36 @@
 [ext_resource path="res://default_env.tres" type="Environment" id=6]
 
 [sub_resource type="PlaneMesh" id=1]
-size = Vector2( 256, 256 )
+size = Vector2( 512, 512 )
 
 [sub_resource type="BoxShape" id=2]
-extents = Vector3( 128, 0.25, 128 )
+extents = Vector3( 256, 0.25, 256 )
 
 [sub_resource type="Curve3D" id=3]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, 0, -40 ),
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, 0, -44 ),
 "tilts": PoolRealArray( 0, 0 )
 }
 
 [sub_resource type="Curve3D" id=4]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 35, 0, -32 ),
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, -42 ),
 "tilts": PoolRealArray( 0, 0 )
+}
+
+[sub_resource type="Curve3D" id=5]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, -8, 0, 0, 0, 0, 0, 0, -7, 2, -10, 0, 0, 0, 0, 0, 0, 2, 2, -15, 0, 0, 0, 0, 0, 0, 4, 4, -17, 0, 0, 0, 0, 0, 0, -2, 4, -25, 0, 0, 0, 0, 0, 0, -5, 6, -27, 0, 0, 0, 0, 0, 0, 5, 6, -35, 0, 0, 0, 0, 0, 0, 4, 8, -37, 0, 0, 0, 0, 0, 0, -3, 8, -47, 0, 0, 0, 0, 0, 0, -2, 10, -49, 0, 0, 0, 0, 0, 0, 3, 10, -55, 0, 0, 0, 0, 0, 0, 4, 12, -57, 0, 0, 0, 0, 0, 0, 5, 12, -59 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 }
 
 [node name="StaticBody" type="StaticBody"]
 collision_layer = 1024
 collision_mask = 0
 script = ExtResource( 3 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 6 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
@@ -39,16 +48,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0 )
 shape = SubResource( 2 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 128, 128 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 256, 256 )
 shape = SubResource( 2 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 120 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 248 )
 
 [node name="Cat" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 80 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 208 )
 
-[node name="Paths" type="Node" parent="."]
+[node name="Paths" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 128 )
 
 [node name="Path1" type="Path" parent="Paths"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 80 )
@@ -58,31 +68,68 @@ curve = SubResource( 3 )
 loop = false
 
 [node name="Path2" type="Path" parent="Paths"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 40 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 36 )
 curve = SubResource( 4 )
 
 [node name="PathFollow2" type="PathFollow" parent="Paths/Path2"]
 loop = false
 
+[node name="Path3" type="Path" parent="Paths"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -6 )
+curve = SubResource( 5 )
+
+[node name="PathFollow3" type="PathFollow" parent="Paths/Path3"]
+loop = false
+
 [node name="Static cube" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 16, 16, 8, 112 )
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 24, 16, 8, 232 )
+
+[node name="Static cube3" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.965926, 0, 6.21166, 0, 8, 0, -0.258819, 0, 23.1822, 10, 8, 185 )
+
+[node name="Static cube4" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.965926, 0, 6.21166, 0, 8, 0, -0.258819, 0, 23.1822, -22, 8, 185 )
+
+[node name="Static cube5" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.866025, 0, -12, 0, 8, 0, 0.5, 0, 20.7846, -16, 8, 142 )
+
+[node name="Static cube6" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.866025, 0, -12, 0, 8, 0, 0.5, 0, 20.7846, 16, 8, 142 )
 
 [node name="Static cube2" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 16, -16, 8, 112 )
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 24, -16, 8, 232 )
+
+[node name="Static cube7" parent="." instance=ExtResource( 4 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 3.584, 9, 1, 108 )
+
+[node name="Static cube8" parent="." instance=ExtResource( 4 )]
+transform = Transform( 4.32, 0, 0, 0, 2, 0, 0, 0, 4, 13, 2, 101 )
+
+[node name="Static cube9" parent="." instance=ExtResource( 4 )]
+transform = Transform( 4.4, 0, 0, 0, 3.4, 0, 0, 0, 8.91, 4, 2, 96 )
+
+[node name="Static cube10" parent="." instance=ExtResource( 4 )]
+transform = Transform( 4.4, 0, 0, 0, 3.74, 0, 0, 0, 5.94, 13, 2, 91 )
+
+[node name="Static cube11" parent="." instance=ExtResource( 4 )]
+transform = Transform( 6.776, 0, 0, 0, 6.12, 0, 0, 0, 5.94, 11, 2, 79 )
+
+[node name="Static cube12" parent="." instance=ExtResource( 4 )]
+transform = Transform( 3.388, 0, 0, 0, 8.0784, 0, 0, 0, 2.97, 11, 2, 70 )
+
+[node name="Static cube13" parent="." instance=ExtResource( 4 )]
+transform = Transform( 3.388, 0, 0, 0, 9.77487, 0, 0, 0, 2.97, 16, 2, 62 )
 
 [node name="TriggerCatAppear" parent="." instance=ExtResource( 5 )]
-transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 104 )
+transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 232 )
 
 [node name="TriggerCatPath1" parent="." instance=ExtResource( 5 )]
-transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 88 )
+transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 216 )
 
 [node name="TriggerCatPath2" parent="." instance=ExtResource( 5 )]
-transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, -8, 4, 48 )
+transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, -10, 4, 168 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 6 )
-
-[connection signal="body_entered" from="Cat" to="Player" method="_on_Cat_body_entered"]
+[connection signal="body_entered" from="Cat" to="Player" method="_on_Cat_body_entered" flags=3]
 [connection signal="body_entered" from="Cat" to="Cat" method="_on_Cat_body_entered"]
 [connection signal="body_entered" from="TriggerCatAppear" to="Cat" method="_on_TriggerCatAppear_body_entered"]
 [connection signal="body_entered" from="TriggerCatPath1" to="Cat" method="_on_TriggerCatPath_body_entered" binds= [ 1 ]]
