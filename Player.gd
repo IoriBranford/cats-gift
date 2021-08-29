@@ -25,8 +25,10 @@ func _on_Cat_body_entered(_body):
 func onFelineLevel1():
 	$Ears.visible = true
 	$Ears/CPUParticles.restart()
-	var we = get_parent().find_node("WorldEnvironment", false) as WorldEnvironment
+	var we = get_node("../WorldEnvironment") as WorldEnvironment
 	we.environment.ambient_light_energy = 2
+	var cat = get_parent().find_node("Cat", true, false)
+	cat.use_pathfollow(3)
 
 func onFelineLevel2():
 	$Tail.visible = true
