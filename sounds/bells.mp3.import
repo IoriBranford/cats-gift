@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bells.mp3-4ba21292207137936b8439d691e8352b.mp3str"
+
+[deps]
+
+source_file="res://sounds/bells.mp3"
+dest_files=[ "res://.import/bells.mp3-4ba21292207137936b8439d691e8352b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
