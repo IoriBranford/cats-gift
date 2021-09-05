@@ -5,7 +5,7 @@ extends Spatial
 export(NodePath) var PlayerPath  = "" #You must specify this in the inspector!
 export(float) var MovementSpeed = 10
 export(float) var Acceleration = 3
-export(float) var MaxJump = 19
+export(float) var MaxJump = 8
 export(float) var MouseSensitivity = 2
 export(float) var RotationLimit = 45
 export(float) var MaxZoom = 0.5
