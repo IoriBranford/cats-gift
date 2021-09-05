@@ -207,6 +207,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TryQodot"
+run/main_scene="res://Scene.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
