@@ -26,3 +26,6 @@ addons/qodot/bin/x11
 
 # Blender
 *.blend1
+
+# TrenchBroom
+maps/autosave/
