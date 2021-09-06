@@ -27,6 +27,7 @@ var IsAirborne = false
 var footstepTimer = 0
 
 signal footstep
+signal camera_hit_wall
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -114,6 +115,15 @@ func _physics_process(delta):
 	ActualZoom = lerp(ActualZoom, ZoomFactor, delta * ZoomSpeed)
 	InnerGimbal.set_scale(Vector3(ActualZoom,ActualZoom,ActualZoom))
 
+	var raycast = $InnerGimbal/RayCast
+	var camera = $InnerGimbal/Camera
+	var camerapos
+	if raycast.is_colliding():
+		camerapos = raycast.get_collision_point()
+		emit_signal("camera_hit_wall")
+	else:
+		camerapos = raycast.to_global(-raycast.cast_to)
+	camera.translation = camera.to_local(camerapos)
 
 #func _on_TightropeDetector_body_entered(body):
 #	var tightrope = body as Tightrope
