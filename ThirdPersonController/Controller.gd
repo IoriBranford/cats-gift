@@ -4,7 +4,7 @@ extends Spatial
 
 export(NodePath) var PlayerPath  = "" #You must specify this in the inspector!
 export(float) var MovementSpeed = 10
-export(float) var Acceleration = 3
+export(float) var Acceleration = 10
 export(float) var MaxJump = 10
 export(float) var MouseSensitivity = 2
 export(float) var RotationLimit = 45
@@ -27,6 +27,7 @@ var IsAirborne = false
 var footstepTimer = 0
 
 signal footstep
+signal movement
 signal camera_hit_wall
 
 func _ready():
@@ -79,6 +80,7 @@ func _physics_process(delta):
 	Movement = Player.transform.basis * (Speed)
 	CurrentVerticalSpeed.y += gravity * delta * JumpAcceleration
 	Movement += CurrentVerticalSpeed
+	emit_signal("movement", Movement)
 	
 	var tightrope
 	var tightropepoint

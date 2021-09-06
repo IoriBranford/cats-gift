@@ -9,7 +9,6 @@ func _ready():
 	$Tail.visible = false
 	for i in range(1,18):
 		footstepSounds.append(load("res://sounds/footsteps/%d.ogg" % i) as AudioStreamOGGVorbis)
-	$Model/AnimationPlayer.play("idle-loop")
 
 func _process(delta):
 	if camera_hit_wall:
@@ -48,3 +47,12 @@ func onFelineLevel2():
 func _on_Controller_camera_hit_wall():
 	camera_hit_wall = true
 	$Model.visible = false
+
+func _on_Controller_movement(movement:Vector3):
+	if is_on_floor():
+		movement = Vector3(movement.x, 0, movement.z)
+		var state_machine = $AnimationTree["parameters/playback"]
+		if movement.length_squared() >= 1:
+			state_machine.travel("run-loop")
+		else:
+			state_machine.travel("idle-loop")
