@@ -3,10 +3,12 @@ extends KinematicBody
 var footstepSounds = []
 var felineLevel = 0
 var camera_hit_wall = false
+onready var ears = get_node("Model/Armature/Skeleton/Ears")
+onready var tail = get_node("Model/Armature/Skeleton/Tail")
 
 func _ready():
-	$Ears.visible = false
-	$Tail.visible = false
+	ears.visible = false
+	tail.visible = false
 	for i in range(1,18):
 		footstepSounds.append(load("res://sounds/footsteps/%d.ogg" % i) as AudioStreamOGGVorbis)
 
@@ -30,16 +32,16 @@ func _on_Cat_body_entered(_body):
 			onFelineLevel2()
 
 func onFelineLevel1():
-	$Ears.visible = true
-	$Ears/CPUParticles.restart()
+	ears.visible = true
+	ears.get_node("CPUParticles").restart()
 	var we = get_node("../WorldEnvironment") as WorldEnvironment
 	we.environment.ambient_light_energy = 16
 	var cat = get_node("../Cat")
 	cat.start_path(get_node("../Level/Path2"))
 
 func onFelineLevel2():
-	$Tail.visible = true
-	$Tail/CPUParticles.restart()
+	tail.visible = true
+	tail.get_node("CPUParticles").restart()
 	$Controller.MaxJump = 25
 	$Controller.MaxFloorAngle = 60
 	$SpotLight.spot_range = 35
