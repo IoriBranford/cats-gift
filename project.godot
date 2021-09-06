@@ -206,7 +206,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="TryQodot"
+config/name="Cat's Gift"
 run/main_scene="res://Scene.tscn"
 config/icon="res://icon.png"
 
