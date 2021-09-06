@@ -43,7 +43,8 @@ func onFelineLevel2():
 #	$Controller.MaxFloorAngle = 60
 	game_ended = true
 	emit_signal("game_ended")
-#	$SpotlightGimbal/SpotLight.spot_range = 35
+	$SpotlightGimbal/SpotLight.spot_range = 35
+	$SpotlightGimbal/SpotLight.light_energy = 2
 
 func _on_Controller_movement(movement:Vector3):
 	if is_on_floor():
