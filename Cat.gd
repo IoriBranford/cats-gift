@@ -50,17 +50,17 @@ func _on_TriggerCatPath_body_entered(_body, nodepath):
 	start_path(get_node(nodepath))
 
 func start_path(path:Path):
-	var points = path.curve.get_baked_points()
-	var point0 = path.to_global(points[0])
-	var pointn = path.to_global(points[points.size() - 1])
-	var global_translation = to_global(translation)
-	var dist0 = point0 - global_translation
-	var distn = pointn - global_translation
+#	var points = path.curve.get_baked_points()
+#	var point0 = path.to_global(points[0])
+#	var pointn = path.to_global(points[points.size() - 1])
+#	var global_translation = to_global(translation)
+#	var dist0 = point0 - global_translation
+#	var distn = pointn - global_translation
 	pathfollow = path.get_node("PathFollow")
-	if distn.length_squared() < dist0.length_squared():
-		pathfollow.unit_offset = 1
-		pathfollow_dir = -1
-	else:
-		pathfollow.unit_offset = 0
-		pathfollow_dir = 1
+#	if distn.length_squared() < dist0.length_squared():
+#		pathfollow.unit_offset = 1
+#		pathfollow_dir = -1
+#	else:
+	pathfollow.unit_offset = 0
+	pathfollow_dir = 1
 	translation = pathfollow.translation
