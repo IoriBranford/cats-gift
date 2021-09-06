@@ -8,12 +8,12 @@ script = ExtResource( 1 )
 PlayerPath = NodePath("..")
 
 [node name="InnerGimbal" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45646, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0 )
 
 [node name="RayCast" type="RayCast" parent="InnerGimbal"]
 enabled = true
-cast_to = Vector3( 0, 0.4, -4 )
+cast_to = Vector3( 0, 0.4, 4 )
 
 [node name="Camera" type="Camera" parent="InnerGimbal"]
-transform = Transform( -1, 2.47357e-08, -8.38504e-08, 0, 0.959135, 0.282944, 8.74228e-08, 0.282944, -0.959136, 0, 0.4, -4 )
+transform = Transform( 0.333333, 0, 0, 0, 0.319712, 0.0943147, 0, -0.0943147, 0.319712, 0, 0.4, 4 )
 current = true

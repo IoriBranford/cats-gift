@@ -2,7 +2,7 @@ extends Area
 
 export var speed = 10.0
 export var dist_per_pawprint = .125
-export var pawprint_prefab:PackedScene = preload("res://Pawprint.tscn")
+var pawprint_prefab:PackedScene = preload("res://Pawprint.tscn")
 
 var pathfollow:PathFollow = null
 var pathfollow_dir = 1

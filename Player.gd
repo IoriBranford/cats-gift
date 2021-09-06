@@ -1,22 +1,19 @@
 extends KinematicBody
 
+export var cat_eye_light_energy = .125
 var footstepSounds = []
 var felineLevel = 0
-var camera_hit_wall = false
 onready var ears = get_node("Model/Armature/Skeleton/Ears")
 onready var tail = get_node("Model/Armature/Skeleton/Tail")
+var game_ended = false
+
+signal game_ended
 
 func _ready():
 	ears.visible = false
 	tail.visible = false
 	for i in range(1,18):
 		footstepSounds.append(load("res://sounds/footsteps/%d.ogg" % i) as AudioStreamOGGVorbis)
-
-func _process(delta):
-	if camera_hit_wall:
-		camera_hit_wall = false
-	else:
-		$Model.visible = true
 		
 func _on_Controller_footstep():
 	$FootstepPlayer.stop()
@@ -34,21 +31,19 @@ func _on_Cat_body_entered(_body):
 func onFelineLevel1():
 	ears.visible = true
 	ears.get_node("CPUParticles").restart()
-	var we = get_node("../WorldEnvironment") as WorldEnvironment
-	we.environment.ambient_light_energy = 16
+	get_node("LeftEyeSpotlight").light_energy = cat_eye_light_energy
+	get_node("RightEyeSpotlight").light_energy = cat_eye_light_energy
 	var cat = get_node("../Cat")
 	cat.start_path(get_node("../Level/Path2"))
 
 func onFelineLevel2():
 	tail.visible = true
 	tail.get_node("CPUParticles").restart()
-	$Controller.MaxJump = 25
-	$Controller.MaxFloorAngle = 60
-	$SpotLight.spot_range = 35
-
-func _on_Controller_camera_hit_wall():
-	camera_hit_wall = true
-	$Model.visible = false
+#	$Controller.MaxJump = 25
+#	$Controller.MaxFloorAngle = 60
+	game_ended = true
+	emit_signal("game_ended")
+#	$SpotlightGimbal/SpotLight.spot_range = 35
 
 func _on_Controller_movement(movement:Vector3):
 	if is_on_floor():

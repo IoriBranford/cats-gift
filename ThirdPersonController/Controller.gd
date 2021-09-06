@@ -25,6 +25,7 @@ var CurrentVerticalSpeed = Vector3()
 var JumpAcceleration = 3
 var IsAirborne = false
 var footstepTimer = 0
+var game_ended = false
 
 signal footstep
 signal movement
@@ -36,6 +37,13 @@ func _ready():
 	InnerGimbal =  $InnerGimbal
 
 func _unhandled_input(event):
+	if event is InputEventKey and event.pressed:
+		match event.scancode:
+			KEY_ESCAPE:
+				get_tree().quit()
+	if game_ended:
+		return
+
 	if event is InputEventMouseMotion :
 		Rotation += event.relative
 	
@@ -46,31 +54,30 @@ func _unhandled_input(event):
 			BUTTON_WHEEL_DOWN:
 				ZoomFactor += 0.05
 		ZoomFactor = clamp(ZoomFactor, MaxZoom, MinZoom)
-	if event is InputEventKey and event.pressed:
-		match event.scancode:
-			KEY_ESCAPE:
-				get_tree().quit()
 
 func _physics_process(delta):
 	var Direction = Vector3.ZERO
-	if Input.is_action_pressed("ui_up"):
-		Direction.z += 1
-	if Input.is_action_pressed("ui_down"):
-		Direction.z -= 1
-	if Input.is_action_pressed("ui_left"):
-		Direction.x += 1
-	if Input.is_action_pressed("ui_right"):
-		Direction.x -= 1
-	if Input.is_action_just_pressed("ui_accept"):
-		if not IsAirborne:
-			CurrentVerticalSpeed = Vector3(0,MaxJump,0)
-			IsAirborne = true
-			emit_signal("footstep")
-
-	#Rotation
-	Player.rotate_y(deg2rad(-Rotation.x)*delta*MouseSensitivity)
+	if game_ended:
+		Rotation.x = move_toward(Rotation.x, 0, delta*2)
+		Rotation.y = move_toward(Rotation.y, 0, delta*2)
+		ZoomFactor = MinZoom
+	else:
+		if Input.is_action_pressed("ui_up"):
+			Direction.z -= 1
+		if Input.is_action_pressed("ui_down"):
+			Direction.z += 1
+		if Input.is_action_pressed("ui_left"):
+			Direction.x -= 1
+		if Input.is_action_pressed("ui_right"):
+			Direction.x += 1
+		if Input.is_action_just_pressed("ui_accept"):
+			if not IsAirborne:
+				CurrentVerticalSpeed = Vector3(0,MaxJump,0)
+				IsAirborne = true
+				emit_signal("footstep")
+		Player.rotate_y(deg2rad(-Rotation.x)*delta*MouseSensitivity)
 #	Player.rotate_y(deg2rad(-Direction.x)*delta*MouseSensitivity)
-	InnerGimbal.rotate_x(deg2rad(Rotation.y)*delta*MouseSensitivity)
+	InnerGimbal.rotate_x(deg2rad(-Rotation.y)*delta*MouseSensitivity)
 	InnerGimbal.rotation_degrees.x = clamp(InnerGimbal.rotation_degrees.x, -RotationLimit, RotationLimit)
 	Rotation = Vector2()
 	
@@ -106,7 +113,7 @@ func _physics_process(delta):
 		var speed = Speed.length()
 		if speed >= 1:
 			footstepTimer += delta
-			var footstepInterval = clamp(1 - speed/MovementSpeed, 0.375, 0.75)
+			var footstepInterval = clamp(1 - speed/MovementSpeed, 0.375, 0.5)
 			if footstepTimer >= footstepInterval:
 				emit_signal("footstep")
 				footstepTimer = 0
@@ -124,8 +131,8 @@ func _physics_process(delta):
 		camerapos = raycast.get_collision_point()
 		emit_signal("camera_hit_wall")
 	else:
-		camerapos = raycast.to_global(-raycast.cast_to)
-	camera.translation = camera.to_local(camerapos)
+		camerapos = raycast.global_transform.xform(raycast.cast_to)
+	camera.global_transform.origin = camerapos
 
 #func _on_TightropeDetector_body_entered(body):
 #	var tightrope = body as Tightrope
@@ -135,3 +142,6 @@ func _physics_process(delta):
 #		vec = vec.rotated(Vector3.UP, tightrope.rotation.y)
 #		vec = vec.rotated(Vector3.FORWARD, tightrope.rotation.z)
 		
+func _on_Player_game_ended():
+	game_ended = true
+
