@@ -1,9 +1,13 @@
 extends Area
 
 export var speed = 10.0
+export var dist_per_pawprint = .125
+export var pawprint_prefab:PackedScene = null
 
 var pathfollow:PathFollow = null
 var pathfollow_dir = 1
+var dist_to_next_pawprint = dist_per_pawprint
+var next_pawprint_side = 1
 
 func _physics_process(delta):
 	var newpos = translation
@@ -13,9 +17,21 @@ func _physics_process(delta):
 		pathfollow.unit_offset = clamp(pathfollow.unit_offset, 0, 1)
 		newpos = pathfollow.translation
 		dpos = newpos - translation
-	if dpos.length_squared() > 0:
+	var dpossq = dpos.length_squared()
+	if dpossq > 0:
 		$Model/AnimationPlayer.play("run-loop")
 		look_at(newpos, Vector3.UP)
+		dist_to_next_pawprint += dpossq
+		if dist_to_next_pawprint >= dist_per_pawprint:
+			dist_to_next_pawprint -= dist_per_pawprint
+			if $PawprintRayCast.is_colliding():
+				var pawprint = pawprint_prefab.instance()
+				var roty = rotation.y
+				var offset = Vector3(cos(roty)*next_pawprint_side*pawprint.scale.x, 0, 0)
+				next_pawprint_side = -next_pawprint_side
+				pawprint.translation = $PawprintRayCast.get_collision_point() + offset
+				pawprint.rotation.y = roty
+				get_tree().root.add_child(pawprint)
 	else:
 		$Model/AnimationPlayer.play("idle-loop")
 		var player = get_node("../Player")
