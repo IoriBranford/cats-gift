@@ -1301,6 +1301,13 @@ ui_down={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="World"
+3d_physics/layer_2="Trigger"
+3d_physics/layer_11="Player"
+3d_physics/layer_12="Cat"
+
 [physics]
 
 common/enable_pause_aware_picking=true
