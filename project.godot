@@ -210,6 +210,10 @@ config/name="Cat's Gift"
 run/main_scene="res://Scene.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/fullscreen=true
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/qodot/plugin.cfg" )
