@@ -6,7 +6,6 @@
 [ext_resource path="res://Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Trigger.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Cat.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Cat.gd" type="Script" id=7]
 [ext_resource path="res://textures/realistic/Concrete02-128.png" type="Texture" id=8]
 [ext_resource path="res://night_env.tres" type="Environment" id=9]
 
@@ -144,6 +143,12 @@ points = PoolVector3Array( -12, 24, -16, -12, -1, -16, -4, -1, -16, -4, 24, -16,
 _data = {
 "points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, -36, 0, 0, 0, 0, 0, 0, -6, 0, -56, 0, 0, 0, 0, 0, 0, -2, 0, -74, 0, 0, 0, 0, 0, 0, 13, 0, -92, 0, 0, 0, 0, 0, 0, 11, 0, -113, 0, 0, 0, 0, 0, 0, 0, 0, -134 ),
 "tilts": PoolRealArray( 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="Curve3D" id=38]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, -134, 0, 0, 0, 0, 0, 0, 4, 0, -154, 0, 0, 0, 0, 0, 0, 4, 1, -158, 0, 0, 0, 0, 0, 0, 2, 2, -162, 0, 0, 0, 0, 0, 0, -2, 3, -166, 0, 0, 0, 0, 0, 0, -4, 4, -170, 0, 0, 0, 0, 0, 0, -2, 4.95906, -174, 0, 0, 0, 0, 0, 0, 0, 5.95906, -174, 0, 0, 0, 0, 0, 0, 4, 6.95906, -174, 0, 0, 0, 0, 0, 0, 6, 6.95906, -176, 0, 0, 0, 0, 0, 0, -4, 6.95906, -178, 0, 0, 0, 0, 0, 0, -6, 7.95906, -180, 0, 0, 0, 0, 0, 0, -4, 8.95906, -188, 0, 0, 0, 0, 0, 0, 4, 12.9591, -196, 0, 0, 0, 0, 0, 0, 5, 12.9591, -197, 0, 0, 0, 0, 0, 0, 5, 13.9591, -198, 0, 0, 0, 0, 0, 0, 5, 13.9591, -199, 0, 0, 0, 0, 0, 0, 5, 14.9591, -200, 0, 0, 0, 0, 0, 0, 6, 14.9591, -201, 0, 0, 0, 0, 0, 0, 6, 15.9591, -202, 0, 0, 0, 0, 0, 0, 6, 15.9591, -203, 0, 0, 0, 0, 0, 0, 6, 16.9591, -204, 0, 0, 0, 0, 0, 0, 5, 16.9591, -206, 0, 0, 0, 0, 0, 0, 0, 20.9591, -216, 0, 0, 0, 0, 0, 0, 0, 24.9591, -224 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 }
 
 [node name="Spatial" type="Spatial"]
@@ -294,13 +299,20 @@ curve = SubResource( 37 )
 transform = Transform( 0.999999, 0, 0.00115428, 0, 1, 0, -0.00115428, 0, 0.999999, 0, 0, -36 )
 loop = false
 
+[node name="Path2" type="Path" parent="Level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0409375, 0 )
+curve = SubResource( 38 )
+
+[node name="PathFollow" type="PathFollow" parent="Level/Path2"]
+transform = Transform( 0.905527, -0.0146031, -0.424038, 0.0238607, 0.999578, 0.0165307, 0.423617, -0.0250867, 0.905494, 0, 0, -134 )
+loop = false
+
 [node name="Player" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="Cat" parent="." instance=ExtResource( 6 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -36 )
 visible = false
-script = ExtResource( 7 )
 
 [connection signal="body_entered" from="Level/TriggerCatAppear" to="Cat" method="_on_TriggerCatAppear_body_entered" flags=6]
 [connection signal="body_entered" from="Level/TriggerCatPath1" to="Cat" method="_on_TriggerCatPath_body_entered" flags=6 binds= [ "../Level/Path1" ]]

@@ -23,10 +23,11 @@ func _physics_process(delta):
 	translation = newpos
 
 func _on_Cat_body_entered(_body):
-	$BellsPlayer.play()
+	$Bells.play()
 
 func _on_TriggerCatAppear_body_entered(_body):
-	$BellsPlayer.play()
+	$Bells.play()
+	$Meow.play()
 	visible = true
 
 func _on_TriggerCatPath_body_entered(_body, nodepath):
