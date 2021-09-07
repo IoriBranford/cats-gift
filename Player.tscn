@@ -20,7 +20,7 @@ height = 0.1
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.00717213, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CylinderShape" id=11]
+[sub_resource type="CylinderShape" id=4]
 radius = 0.25
 height = 1.5
 
@@ -30,43 +30,43 @@ animation = "idle-loop"
 [sub_resource type="AnimationNodeAnimation" id=6]
 animation = "run-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "sit-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "sit"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=7]
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
 switch_mode = 2
 auto_advance = true
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachine" id=9]
+[sub_resource type="AnimationNodeStateMachine" id=14]
 states/idle-loop/node = SubResource( 5 )
 states/idle-loop/position = Vector2( 109.667, 79 )
 states/run-loop/node = SubResource( 6 )
 states/run-loop/position = Vector2( 573.667, 78.1111 )
-states/sit/node = SubResource( 13 )
+states/sit/node = SubResource( 8 )
 states/sit/position = Vector2( 292, 172 )
-states/sit-loop/node = SubResource( 12 )
+states/sit-loop/node = SubResource( 7 )
 states/sit-loop/position = Vector2( 451, 231 )
-transitions = [ "idle-loop", "run-loop", SubResource( 7 ), "run-loop", "idle-loop", SubResource( 8 ), "idle-loop", "sit", SubResource( 14 ), "run-loop", "sit", SubResource( 15 ), "sit", "sit-loop", SubResource( 16 ) ]
+transitions = [ "idle-loop", "run-loop", SubResource( 9 ), "run-loop", "idle-loop", SubResource( 10 ), "idle-loop", "sit", SubResource( 11 ), "run-loop", "sit", SubResource( 12 ), "sit", "sit-loop", SubResource( 13 ) ]
 start_node = "idle-loop"
 graph_offset = Vector2( 5, 36 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=10]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=15]
 
 [node name="Player" type="KinematicBody"]
 collision_layer = 1024
@@ -121,7 +121,7 @@ scale_amount_curve = SubResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
-shape = SubResource( 11 )
+shape = SubResource( 4 )
 
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1, 0 )
@@ -134,10 +134,10 @@ unit_size = 16.0
 autoplay = true
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 9 )
+tree_root = SubResource( 14 )
 anim_player = NodePath("../Model/AnimationPlayer")
 active = true
-parameters/playback = SubResource( 10 )
+parameters/playback = SubResource( 15 )
 
 [node name="SpotlightGimbal" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 1, 0 )

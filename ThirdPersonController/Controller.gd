@@ -3,8 +3,8 @@ extends Spatial
 #const Tightrope = preload("res://Tightrope.gd")
 
 export(NodePath) var PlayerPath  = "" #You must specify this in the inspector!
-export(float) var MovementSpeed = 10
-export(float) var Acceleration = 10
+export(float) var MovementSpeed = 8
+export(float) var Acceleration = 8
 export(float) var MaxJump = 10
 export(float) var MouseSensitivity = 2
 export(float) var RotationLimit = 45
