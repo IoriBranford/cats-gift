@@ -670,7 +670,7 @@ loop = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -263 )
 
 [node name="Particles" type="Particles" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32, -512 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36, -512 )
 amount = 2048
 visibility_aabb = AABB( -256, -4, -256, 512, 8, 512 )
 process_material = SubResource( 176 )
@@ -800,3 +800,4 @@ material/0 = SubResource( 90 )
 [connection signal="body_entered" from="Level/TriggerCatPath1" to="Cat" method="_on_TriggerCatPath_body_entered" flags=6 binds= [ "../Level/Path1" ]]
 [connection signal="body_entered" from="Cat" to="Player" method="_on_Cat_body_entered"]
 [connection signal="body_entered" from="Cat" to="Cat" method="_on_Cat_body_entered"]
+[connection signal="game_ended" from="Player" to="Cat" method="_on_Player_game_ended"]

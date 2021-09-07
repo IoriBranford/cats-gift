@@ -64,3 +64,10 @@ func start_path(path:Path):
 	pathfollow.unit_offset = 0
 	pathfollow_dir = 1
 	translation = pathfollow.translation
+
+func _on_Timer_timeout():
+	$Meow.play()
+
+func _on_Player_game_ended():
+	$Timer.stop()
+	$Purr.play()
