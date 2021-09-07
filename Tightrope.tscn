@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="RayShape" id=6]
+length = 8.0
+
+[sub_resource type="SpatialMaterial" id=7]
+emission_enabled = true
+emission = Color( 1, 1, 1, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="SphereMesh" id=8]
+material = SubResource( 7 )
+radius = 0.01
+height = 0.02
+
+[node name="Tightrope" type="StaticBody"]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 6 )
+
+[node name="CPUParticles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
+amount = 64
+mesh = SubResource( 8 )
+emission_shape = 2
+emission_box_extents = Vector3( 0.02, 0.02, 4 )
+direction = Vector3( 0, 0, 1 )
+spread = 0.25
+gravity = Vector3( 0, 0, 0 )
