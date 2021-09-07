@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://models/chara/polly/polly.gltf" type="PackedScene" id=2]
@@ -20,8 +20,9 @@ height = 0.1
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.00717213, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CapsuleShape" id=4]
+[sub_resource type="CylinderShape" id=11]
 radius = 0.25
+height = 1.5
 
 [sub_resource type="AnimationNodeAnimation" id=5]
 animation = "idle-loop"
@@ -29,10 +30,27 @@ animation = "idle-loop"
 [sub_resource type="AnimationNodeAnimation" id=6]
 animation = "run-loop"
 
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "sit-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "sit"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=7]
 xfade_time = 0.1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=8]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+switch_mode = 2
+auto_advance = true
 xfade_time = 0.1
 
 [sub_resource type="AnimationNodeStateMachine" id=9]
@@ -40,8 +58,13 @@ states/idle-loop/node = SubResource( 5 )
 states/idle-loop/position = Vector2( 109.667, 79 )
 states/run-loop/node = SubResource( 6 )
 states/run-loop/position = Vector2( 573.667, 78.1111 )
-transitions = [ "idle-loop", "run-loop", SubResource( 7 ), "run-loop", "idle-loop", SubResource( 8 ) ]
+states/sit/node = SubResource( 13 )
+states/sit/position = Vector2( 292, 172 )
+states/sit-loop/node = SubResource( 12 )
+states/sit-loop/position = Vector2( 451, 231 )
+transitions = [ "idle-loop", "run-loop", SubResource( 7 ), "run-loop", "idle-loop", SubResource( 8 ), "idle-loop", "sit", SubResource( 14 ), "run-loop", "sit", SubResource( 15 ), "sit", "sit-loop", SubResource( 16 ) ]
 start_node = "idle-loop"
+graph_offset = Vector2( 5, 36 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=10]
 
@@ -97,8 +120,8 @@ initial_velocity = 1.0
 scale_amount_curve = SubResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.75, 0 )
-shape = SubResource( 4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
+shape = SubResource( 11 )
 
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1, 0 )

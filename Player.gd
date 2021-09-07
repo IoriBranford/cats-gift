@@ -45,9 +45,11 @@ func onFelineLevel2():
 	emit_signal("game_ended")
 	$SpotlightGimbal/SpotLight.spot_range = 35
 	$SpotlightGimbal/SpotLight.light_energy = 2
+	var state_machine = $AnimationTree["parameters/playback"]
+	state_machine.travel("sit-loop")
 
 func _on_Controller_movement(movement:Vector3):
-	if is_on_floor():
+	if !game_ended && is_on_floor():
 		movement = Vector3(movement.x, 0, movement.z)
 		var state_machine = $AnimationTree["parameters/playback"]
 		if movement.length_squared() >= 1:
