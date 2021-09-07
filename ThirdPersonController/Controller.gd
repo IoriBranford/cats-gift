@@ -104,6 +104,20 @@ func _physics_process(delta):
 
 	var wasOnFloor = Player.is_on_floor()
 	Player.move_and_slide(Movement,Vector3.UP, false, 4, MaxFloorAngle)
+
+	for i in range(0, Player.get_slide_count()):
+		var collision = Player.get_slide_collision(i) as KinematicCollision
+		var shape = collision.collider_shape as CollisionShape
+		if not shape:
+			continue
+		var ray = shape.shape as RayShape
+		if not ray:
+			continue
+		var normal = collision.normal
+		if collision.normal.y < 0:
+			continue
+		Player.translation = collision.position
+
 	if Player.is_on_floor() :
 		if not wasOnFloor:
 			emit_signal("footstep")
