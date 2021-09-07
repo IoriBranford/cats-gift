@@ -26,6 +26,7 @@ var JumpAcceleration = 3
 var IsAirborne = false
 var footstepTimer = 0
 var game_ended = false
+var tightrope:CollisionShape = null
 
 signal footstep
 signal movement
@@ -72,6 +73,7 @@ func _physics_process(delta):
 			Direction.x += 1
 		if Input.is_action_just_pressed("ui_accept"):
 			if not IsAirborne:
+				tightrope = null
 				CurrentVerticalSpeed = Vector3(0,MaxJump,0)
 				IsAirborne = true
 				emit_signal("footstep")
@@ -80,45 +82,48 @@ func _physics_process(delta):
 	InnerGimbal.rotate_x(deg2rad(-Rotation.y)*delta*MouseSensitivity)
 	InnerGimbal.rotation_degrees.x = clamp(InnerGimbal.rotation_degrees.x, -RotationLimit, RotationLimit)
 	Rotation = Vector2()
+
+#	if not tightrope:
+#		for i in range(0, Player.get_slide_count()):
+#			var collision = Player.get_slide_collision(i) as KinematicCollision
+#			var shape = collision.collider_shape as CollisionShape
+#			if not shape:
+#				continue
+#			var ray = shape.shape as RayShape
+#			if not ray:
+#				continue
+#			var normal = collision.normal
+#			if collision.normal.y < 0:
+#				continue
+#			tightrope = shape
+#			break
 	
 	#Movement
 	var MaxSpeed = MovementSpeed *Direction.normalized()
 	Speed = Speed.linear_interpolate(MaxSpeed, delta * Acceleration)
 	Movement = Player.transform.basis * (Speed)
-	CurrentVerticalSpeed.y += gravity * delta * JumpAcceleration
+	if tightrope:
+		var tightropeBody = tightrope.get_parent()
+		var rayshape = tightrope.shape as RayShape
+		var rayUnit = tightropeBody.transform.xform(Vector3.BACK).normalized()
+		var toPlayer = Player.translation - tightropeBody.translation
+		var playerProjScalar = toPlayer.dot(rayUnit)
+		print(playerProjScalar)
+		if playerProjScalar > 0 || playerProjScalar < -rayshape.length:
+			tightrope = null
+		else:
+			Movement = Movement.dot(rayUnit) * rayUnit
+			var tightropePoint = playerProjScalar * rayUnit
+#		Movement += (tightropePoint - Player.translation) / delta
+	else:
+		CurrentVerticalSpeed.y += gravity * delta * JumpAcceleration
 	Movement += CurrentVerticalSpeed
 	emit_signal("movement", Movement)
-	
-	var tightrope
-	var tightropepoint
-#	if $RayCast.is_colliding():
-#		tightrope = $RayCast.get_collider() as Tightrope
-#		if tightrope:
-#			tightropepoint = $RayCast.get_collision_point()
-#			Player.translation = tightropepoint
-#			var vec = Vector3.FORWARD
-#			vec = vec.rotated(Vector3.RIGHT, tightrope.rotation.x)
-#			vec = vec.rotated(Vector3.UP, tightrope.rotation.y)
-#			vec = vec.rotated(Vector3.FORWARD, tightrope.rotation.z)
-#			Movement = Movement.dot(vec) * vec
 
 	var wasOnFloor = Player.is_on_floor()
 	Player.move_and_slide(Movement,Vector3.UP, false, 4, MaxFloorAngle)
 
-	for i in range(0, Player.get_slide_count()):
-		var collision = Player.get_slide_collision(i) as KinematicCollision
-		var shape = collision.collider_shape as CollisionShape
-		if not shape:
-			continue
-		var ray = shape.shape as RayShape
-		if not ray:
-			continue
-		var normal = collision.normal
-		if collision.normal.y < 0:
-			continue
-		Player.translation = collision.position
-
-	if Player.is_on_floor() :
+	if tightrope or Player.is_on_floor():
 		if not wasOnFloor:
 			emit_signal("footstep")
 		CurrentVerticalSpeed.y = 0
